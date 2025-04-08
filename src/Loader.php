@@ -28,6 +28,7 @@ class Loader {
 	public function init(): void {
 		$this->initTariffData();
 		$this->initActions();
+		$this->initFilters();
 	}
 
 	public function initTariffData(): void {
@@ -47,6 +48,11 @@ class Loader {
 		add_action('woocommerce_process_product_meta', [$this, 'saveCountryOfOriginField'], 10, 1);
 		add_action('woocommerce_cart_calculate_fees', [$this, 'addTariffFeeToCart'], 10, 1);
 	}
+
+	public function initFilters(): void {
+		add_filter('woocommerce_get_sections_advanced', [$this, 'addSettingsSection'], 10, 1);
+		add_filter('woocommerce_get_settings_advanced', [$this, 'addTariffFeeSettings'], 10, 2 );
+	}	
 
 	/**
 	 * Display country of origin field on product
@@ -83,8 +89,9 @@ class Loader {
 	 * Add tariff fee to the order
 	 */
 	public function addTariffFeeToCart($cart): void {
-		// Loop through cart items to calculate product tariff fees from country of origin
 		$all_tarrif_fees = [];
+		$include_in_tax = get_option('tariff_fee_sales_tax') === 'yes' ? true : false;
+		$tax_class = $include_in_tax ? get_option('tariff_fee_sales_tax_class') : null;
 
 		foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
 			$product = $cart_item['data'];
@@ -107,7 +114,7 @@ class Loader {
 			$countries = $countries_obj->__get('countries');	
 			$country_name = $countries[$country_of_origin];
 
-			$cart->add_fee('Tariff Fee: ' . $country_name, array_sum($tariff_fees));
+			$cart->add_fee('Tariff Fee: ' . $country_name, array_sum($tariff_fees), $include_in_tax, $tax_class);
 		}
 	}
 
@@ -131,4 +138,48 @@ class Loader {
 
 		return $tariff_fee;
 	}
+
+	/**
+	 * Add settings tab
+	 */
+	public function addSettingsSection($sections): array {
+		$sections['tariff_fee'] = 'Tariff Fee';
+		return $sections;
+	}
+
+	/**
+	 * Settings contents
+	 */
+	public function addTariffFeeSettings($settings, $current_section): array {
+		if ($current_section !== 'tariff_fee') {
+			return $settings;
+		}
+		
+		$settings = [
+			[
+				'name' => 'Tariff Fee for Woocommerce',
+				'type' => 'title',
+				'desc' => 'Tariff fees are calculated based on the country of origin of the product, which is set in Product > Advanced. Tariff percent data is located in "resources/data/tariff_fees.csv". Please note these rates may not be up to date!!',
+			],	
+			[
+				'name' => 'Tariff Fee included in Tax Calculation',
+				'desc' => 'Yes',
+				'desc_tip' => 'If the tariff is included in the overal sales tax calculation',
+				'id' => 'tariff_fee_sales_tax',
+				'type' => 'checkbox',
+			],
+			[
+				'name' => 'Tax Class for Tariff Fee',
+				'id' => 'tariff_fee_sales_tax_class',
+				'type' => 'text',
+			],
+			[
+				'type' => 'sectionend',
+			],
+	
+		];
+	
+		return $settings;	
+	}
 }
+

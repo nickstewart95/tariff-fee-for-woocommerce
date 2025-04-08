@@ -20,3 +20,11 @@ $plugin = new Loader(__DIR__, plugin_dir_url(__FILE__));
 $plugin->init();
 
 $GLOBALS['blade'] = Loader::initBladeViews();
+
+/**
+ * The tariff fee is included in the tax calculation by default
+ * See https://www.wipfli.com/insights/articles/tax-taxes-and-tariffs-an-overview-of-sales-tax-implications
+ **/
+register_activation_hook( __FILE__, function() {
+    update_option('tariff_fee_sales_tax', 'yes');
+});
