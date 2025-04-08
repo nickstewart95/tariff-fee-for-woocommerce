@@ -1,0 +1,16 @@
+{
+	"config": {
+		"platform": {
+			"php": "8.0"
+		}
+	},
+	"require": {
+		"nesbot/carbon": "^2.58",
+		"jenssegers/blade": "^1.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"TariffFee\\": "src/"
+		}
+	}
+}
