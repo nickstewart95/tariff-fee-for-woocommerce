@@ -20,3 +20,12 @@ To modify the tax settings for tariffs, visit WooCommerce > Settings > Advanced 
 Tariff data is stored in the "resources/data/tariff_fees.csv" file. This plugin makes no guarantees about the accuracy of the data. Please confirm this data is correct before using on a production website.
 
 ## Screenshots
+
+Tariff Fees in the WooCommerce Cart
+![Fees in the cart](screenshot-1.png?raw=true)
+
+Setting the country of origin
+![Country of origin](screenshot-2.png?raw=true)
+
+Plugin settings
+![Plugin settings](screenshot-3.png?raw=true)
