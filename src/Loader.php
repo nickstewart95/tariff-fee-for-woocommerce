@@ -80,8 +80,14 @@ class Loader {
 	 * Handle save country of origin field on products
 	 */
 	public function saveCountryOfOriginField($id): void {
+		if (!(isset($_POST['woocommerce_meta_nonce']) && wp_verify_nonce(sanitize_key($_POST['woocommerce_meta_nonce']), 'woocommerce_save_data'))) {
+			return;
+		}
+
 		if (isset($_POST['tariff_fee_country_of_origin'])) {
-			update_post_meta($id, 'tariff_fee_country_of_origin', $_POST['tariff_fee_country_of_origin']);
+			$value = sanitize_text_field(wp_unslash($_POST['tariff_fee_country_of_origin']));
+
+			update_post_meta($id, 'tariff_fee_country_of_origin', $value);
 		}
 	}
 
