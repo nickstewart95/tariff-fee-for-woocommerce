@@ -4,10 +4,10 @@ Author URI: https://nickstewart.me
 Tags: woocommerce, tariff, fee
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 1.1.1
+Stable tag: 1.0.0
 Requires PHP: 8.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 This plugin adds a US reciprocal tariff fee to the Woocommerce cart based on the country of origin of the product.
 

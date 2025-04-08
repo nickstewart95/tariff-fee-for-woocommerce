@@ -1,11 +1,13 @@
 <?php
 /**
  * @wordpress-plugin
- * Plugin Name: Tariff for Woocommerce
+ * Plugin Name: Tariff Fee for WooCommerce
  * Description: Show a tariff fee for Woocommerce
  * Version: 1.0.0
  * Author: Nick Stewart
  * Author URI: https://nickstewart.me
+ * License: GPL-3.0+
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 if (!defined('WPINC')) {
