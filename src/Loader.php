@@ -18,19 +18,19 @@ class Loader {
 		$this->version = '1.0.0';
 	}
 
-	public static function initBladeViews() {
+	public static function initBladeViews(): Blade {
 		$views = __DIR__ . '/resources/pages';
 		$cache = __DIR__ . '/cache';
 
 		return new Blade($views, $cache);
 	}
 
-	public function init() {
+	public function init(): void {
 		$this->initTariffData();
 		$this->initActions();
 	}
 
-	public function initTariffData() {
+	public function initTariffData(): void {
 		// Tariff fees are stored in a CSV file for easy updating
 		try {
 			$csv = Reader::createFromPath(__DIR__ . '/resources/data/tariff_fees.csv', 'r');
@@ -42,7 +42,7 @@ class Loader {
 		}
 	}
 
-	public function initActions() {
+	public function initActions(): void {
 		add_action('woocommerce_product_options_advanced', [$this, 'displayCountryOfOriginField'], 10);
 		add_action('woocommerce_process_product_meta', [$this, 'saveCountryOfOriginField'], 10, 1);
 		add_action('woocommerce_cart_calculate_fees', [$this, 'addTariffFeeToCart'], 10, 1);
@@ -51,7 +51,7 @@ class Loader {
 	/**
 	 * Display country of origin field on product
 	 */
-	public function displayCountryOfOriginField() {
+	public function displayCountryOfOriginField(): void {
 		$blade = $GLOBALS['blade'];
 		$post = $GLOBALS['post'];
 
@@ -73,7 +73,7 @@ class Loader {
 	/**
 	 * Handle save country of origin field on products
 	 */
-	public function saveCountryOfOriginField($id) {
+	public function saveCountryOfOriginField($id): void {
 		if (isset($_POST['tariff_fee_country_of_origin'])) {
 			update_post_meta($id, 'tariff_fee_country_of_origin', $_POST['tariff_fee_country_of_origin']);
 		}
@@ -82,7 +82,7 @@ class Loader {
 	/**
 	 * Add tariff fee to the order
 	 */
-	public function addTariffFeeToCart($cart) {
+	public function addTariffFeeToCart($cart): void {
 		// Loop through cart items to calculate product tariff fees from country of origin
 		$all_tarrif_fees = [];
 
