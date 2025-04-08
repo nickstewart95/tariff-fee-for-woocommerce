@@ -6,7 +6,8 @@
 	},
 	"require": {
 		"nesbot/carbon": "^2.58",
-		"jenssegers/blade": "^1.4"
+		"jenssegers/blade": "^1.4",
+		"league/csv": "^9.8"
 	},
 	"autoload": {
 		"psr-4": {
